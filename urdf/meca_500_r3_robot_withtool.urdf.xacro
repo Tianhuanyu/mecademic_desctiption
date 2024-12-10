@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="meca500_robot">
+
+    <xacro:include
+        filename="$(find mecademic_description)/urdf/meca_500_r3_description.xacro" />
+  
+    <!-- World link -->
+    <link name="world"/>
+
+    <!-- Fixed joint connecting the world to the base link -->
+    <joint name="world_to_base" type="fixed">
+        <parent link="world"/>
+        <child link="meca_base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <xacro:meca500 />
+
+    <!-- End-effector force link -->
+    <link name="ee_force_link">
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://mecademic_description/meshes/MiniONE_Pro.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        </visual>
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://mecademic_description/meshes/MiniONE_Pro.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <!-- Joint connecting meca_axis_6_link to ee_force_link -->
+    <joint name="meca_axis_6_to_ee_force_joint" type="fixed">
+        <parent link="meca_axis_6_link"/>
+        <child link="ee_force_link"/>
+        <origin xyz="0.0262 0 0" rpy="0 1.5708 0"/> <!-- 假设 ee_force_link 位于 meca_axis_6_link 的上方 0.1m 处 -->
+    </joint>
+
+
+
+    <link name="ee_tool_link">
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://mecademic_description/meshes/tool.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        </visual>
+        <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <mesh filename="package://mecademic_description/meshes/tool.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <!-- Joint connecting meca_axis_6_link to ee_force_link -->
+    <joint name="meca_axis_ee_force_to_tool_joint" type="fixed">
+        <parent link="ee_force_link"/>
+        <child link="ee_tool_link"/>
+        <origin xyz="0 0.0 0.01" rpy="0 0 0"/> 
+    </joint>
+
+
+    <link name="ee_tool_tip">
+    </link>
+
+    <!-- Joint connecting meca_axis_6_link to ee_force_link -->
+    <joint name="meca_axis_ee_tool_to_tip_joint" type="fixed">
+        <parent link="ee_tool_link"/>
+        <child link="ee_tool_tip"/>
+        <origin xyz="0.12 0 0.00" rpy="0 0 0"/> 
+    </joint>
+
+</robot>
