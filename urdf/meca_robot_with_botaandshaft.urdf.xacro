@@ -59,7 +59,18 @@
     <joint name="meca_axis_ee_tool_to_tip_joint" type="fixed">
         <parent link="ee_tool_link"/>
         <child link="ee_tool_tip"/>
-        <origin xyz="0.0 0.1 0.036" rpy="0 0 0"/> 
+        <origin xyz="-0.03 0.0 0.036" rpy="0 0 0"/> 
+    </joint>
+
+
+    <link name="ee_tool_tip2">
+    </link>
+
+    <!-- Joint connecting meca_axis_6_link to ee_force_link -->
+    <joint name="meca_axis_ee_tool_to_tip_joint2" type="fixed">
+        <parent link="ee_tool_link"/>
+        <child link="ee_tool_tip2"/>
+        <origin xyz="0.05 0.0 0.036" rpy="0 0 0"/> 
     </joint>
 
 </robot>
